@@ -1,6 +1,5 @@
 package com.localarea.network.doug;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,15 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-@SuppressWarnings("serial")
-public class WebsiteTimerGUIelement extends Component
+public class WebsiteTimerGUIelement
 {
 	private JTextField websiteTextfield;
 	private int webTextfieldWidth = 250;
 	private String defaultWebsiteString = "website";
 	
 	private JLabel timeLabel;
-	private int timeWidth = 65;
+	private int timeLabelWidth = 65;
 	private String defaultTime = "00:00:00";
 	
 	Timer timer;	// for updating time elapsed
@@ -32,21 +30,35 @@ public class WebsiteTimerGUIelement extends Component
 	private String resetString = "Reset";
 	private int resetButtonWidth = 75;
 	
+	private JLabel visitCountLabel;
+	private int visitCount = 0;
+	private int visitCountLabelWidth = 70;
+	
 	private boolean running = false;
 	private int sleepInterval = 1000;	// time in milliseconds
 	private int seconds;
 	private int minutes;
 	private int hours;
 	
+	/**
+	 * A five part element to add to a JFrame. Includes a JTextfield, JLabel, JLabel, JButton, and JButton.
+	 * @param frame	- frame to add this element to
+	 * @param startX - x coord on frame
+	 * @param startY - y coord on frame
+	 * @param rowHeight - height of components
+	 * @param padding - space between components
+	 */
 	public WebsiteTimerGUIelement(JFrame frame, int startX, int startY, int rowHeight, int padding)
 	{
 		super();
+		// website textfield ===================================================================
 		websiteTextfield = new JTextField(defaultWebsiteString);
 		websiteTextfield.setBounds(startX, startY, webTextfieldWidth, rowHeight);
 		frame.getContentPane().add(websiteTextfield);
 		
+		// time label ===================================================================
 		timeLabel = new JLabel(defaultTime);
-		timeLabel.setBounds(startX + webTextfieldWidth + padding, startY, timeWidth, rowHeight);
+		timeLabel.setBounds(startX + webTextfieldWidth + padding, startY, timeLabelWidth, rowHeight);
 		frame.getContentPane().add(timeLabel);
 
 		timer = new Timer(sleepInterval, new ActionListener()
@@ -59,8 +71,14 @@ public class WebsiteTimerGUIelement extends Component
 			}
 		});
 		
+		visitCountLabel = new JLabel(""+visitCount);
+		visitCountLabel.setBounds(startX + webTextfieldWidth + timeLabelWidth + padding, startY, visitCountLabelWidth, rowHeight);
+		frame.getContentPane().add(visitCountLabel);
+		
+		// start/stop button ===================================================================
+		int startStopButtonX = startX*2 +webTextfieldWidth+timeLabelWidth+visitCountLabelWidth+padding;
 		startStopButton = new JButton(startString);
-		startStopButton.setBounds(startX*2 + webTextfieldWidth + timeWidth + padding, startY, startStopButtonWidth, rowHeight);
+		startStopButton.setBounds(startStopButtonX, startY, startStopButtonWidth, rowHeight);
 		startStopButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -71,6 +89,7 @@ public class WebsiteTimerGUIelement extends Component
 					timer.start();
 					startStopButton.setText(stopString);
 					running = true;
+					visitCountLabel.setText(""+ ++visitCount);
 				}
 				else
 				{
@@ -82,17 +101,23 @@ public class WebsiteTimerGUIelement extends Component
 		});
 		frame.getContentPane().add(startStopButton);
 		
+		// reset button ===================================================================
+		int resetButtonX = startX*3+webTextfieldWidth+timeLabelWidth+visitCountLabelWidth+startStopButtonWidth+padding;
 		resetButton = new JButton(resetString);
-		resetButton.setBounds(startX*3 + webTextfieldWidth + timeWidth + startStopButtonWidth + padding, startY, resetButtonWidth , rowHeight);
+		resetButton.setBounds(resetButtonX, startY, resetButtonWidth , rowHeight);
 		resetButton.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				// reset timer value and visit value
 				seconds = 0;
 				minutes = 0;
 				hours = 0;
 				timeLabel.setText("00:00:00");
+				
+				visitCount = 0;
+				visitCountLabel.setText("" + visitCount);
 			}
 		});
 		frame.getContentPane().add(resetButton);
@@ -113,6 +138,14 @@ public class WebsiteTimerGUIelement extends Component
 		return timeLabel.getText();
 	}
 	
+	public int getVisitCount()
+	{
+		return visitCount;
+	}
+	
+	/**
+	 * Increments 'seconds' every time its called. Increments 'minutes' and 'hours' when needed.
+	 */
 	private void updateTime()
 	{
 		seconds++;
