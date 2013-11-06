@@ -18,7 +18,7 @@ public class WebsiteTimerGUIelement extends Component
 	private String defaultWebsiteString = "website";
 	
 	private JLabel timeLabel;
-	private int timeWidth = 55;
+	private int timeWidth = 65;
 	private String defaultTime = "00:00:00";
 	
 	Timer timer;	// for updating time elapsed
@@ -30,7 +30,7 @@ public class WebsiteTimerGUIelement extends Component
 	
 	private JButton resetButton;
 	private String resetString = "Reset";
-	private int resetButtonWidth = 70;
+	private int resetButtonWidth = 75;
 	
 	private boolean running = false;
 	private int sleepInterval = 1000;	// time in milliseconds

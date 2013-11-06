@@ -16,6 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 /**
  * @author Doug
@@ -25,13 +28,22 @@ public class WindowsGUI
 {
 	private JFrame mainWindow;
 	private String frameTitle = "Website Usage Tracker";
-	private int frameWidth = 520;
-	private int frameHeight = 450;
+	private int frameWidth = 550;
+	private int frameHeight = 470;
+	private String author = "Doug Chidester";
+	private String version = " v0.71";
+	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
+								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
+			"However, using File->Quit from the menu will auto-save to a file.\n" +
+			"WARNING: website fields with the default 'website' value will not be written to the save file.\n\n" +
+			"The saved file should be in the same place as where you ran this program from (Windows) or your home directory (Unix).";
+	private String updates = "\n\nUpdates available at:\nlocalarea-network.com under the 'programs' link.";
+	//private String source = "\nSource code at:\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
 	private int numberOfGUIelements = 10;
 	private int initialX = 10;
 	private int initialY = 60;
-	private int paddingX = 20;
+	private int paddingX = 30;
 	private int paddingY = 10;
 	private int height = 25;
 	
@@ -88,7 +100,7 @@ public class WindowsGUI
 	{
 		super();
 		mainWindow = new JFrame(frameTitle);
-		mainWindow.setLayout(null);
+		mainWindow.getContentPane().setLayout(null);
 		
 		trackers = new WebsiteTimerGUIelement[numberOfGUIelements];
 		for(int t = 0; t < numberOfGUIelements; t++)
@@ -112,20 +124,64 @@ public class WindowsGUI
 		});
 		mainWindow.getContentPane().add(saveButton);
 		
-		// total time label (i.e. Total Time:)
-		// total time display (i.e. the sum of all times)
-		
-		/*
-		createWebsiteTextFields();
-		createTimeLabels();
-		createStartStopButtons();
-		*/
-		//linkButtonsToLabels();
-		
-		
 		mainWindow.setSize(frameWidth, frameHeight);
 		mainWindow.setLocationRelativeTo(null);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JMenuBar menuBar = new JMenuBar();
+		mainWindow.setJMenuBar(menuBar);
+		
+		JMenu fileMenu = new JMenu("File");
+		menuBar.add(fileMenu);
+		
+		JMenuItem saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				writeToFile(filenameTextfield.getText());
+			}
+		});
+		fileMenu.add(saveMenuItem);
+		
+		JMenuItem quitMenuItem = new JMenuItem("Quit");
+		quitMenuItem.addActionListener(new ActionListener()
+		{
+            public void actionPerformed(ActionEvent e)
+            {
+                // save data and close program if user clicks: File -> Quit
+            	writeToFile(filenameTextfield.getText());
+                mainWindow.dispose();
+            }
+		});
+		fileMenu.add(quitMenuItem);
+		
+		JMenu helpMenu = new JMenu("Help");
+		menuBar.add(helpMenu);
+		
+		JMenuItem helpMenuItem = new JMenuItem("Help");
+		helpMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				// show basic use instructions if user clicks: Help -> Help
+                JOptionPane.showMessageDialog(null, helpMessage, "How to use", JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		helpMenu.add(helpMenuItem);
+		
+		JMenuItem aboutMenuItem = new JMenuItem("About");
+		aboutMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				JOptionPane.showMessageDialog(null, "Created by "+author+"\nVersion "+version+updates, "About", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		helpMenu.add(aboutMenuItem);
 		mainWindow.setVisible(true);
 	}
 
