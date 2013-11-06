@@ -3,7 +3,6 @@ package com.localarea.network.doug;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,17 +10,18 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+@SuppressWarnings("serial")
 public class WebsiteTimerGUIelement extends Component
 {
 	private JTextField websiteTextfield;
 	private int webTextfieldWidth = 250;
-	private String defaultText = "website";
+	private String defaultWebsiteString = "website";
 	
 	private JLabel timeLabel;
 	private int timeWidth = 55;
 	private String defaultTime = "00:00:00";
 	
-	Timer timer;
+	Timer timer;	// for updating time elapsed
 	
 	private JButton startStopButton;
 	private int startStopButtonWidth = 70;
@@ -41,7 +41,7 @@ public class WebsiteTimerGUIelement extends Component
 	public WebsiteTimerGUIelement(JFrame frame, int startX, int startY, int rowHeight, int padding)
 	{
 		super();
-		websiteTextfield = new JTextField(defaultText);
+		websiteTextfield = new JTextField(defaultWebsiteString);
 		websiteTextfield.setBounds(startX, startY, webTextfieldWidth, rowHeight);
 		frame.getContentPane().add(websiteTextfield);
 		
@@ -96,6 +96,21 @@ public class WebsiteTimerGUIelement extends Component
 			}
 		});
 		frame.getContentPane().add(resetButton);
+	}
+	
+	public String getWebsite()
+	{
+		return websiteTextfield.getText();
+	}
+	
+	public String getDefaultWebsiteString()
+	{
+		return this.defaultWebsiteString;
+	}
+	
+	public String getTime()
+	{
+		return timeLabel.getText();
 	}
 	
 	private void updateTime()

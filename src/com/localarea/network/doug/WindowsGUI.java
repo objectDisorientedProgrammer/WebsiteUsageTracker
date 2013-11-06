@@ -2,11 +2,13 @@
  * MainWindow.java
  * Created November 4, 2013
  * By Douglas Chidester
+ * finished Nov 5, 2013
  * 
  */
 package com.localarea.network.doug;
 
-import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
@@ -49,6 +51,7 @@ public class WindowsGUI
 	private int saveButtonWidth = 70;
 	
 	
+	
 	// website textfield properties
 	/*private JTextField websiteTFs[];
 	private int webTextfieldX = 10;
@@ -87,21 +90,30 @@ public class WindowsGUI
 		mainWindow = new JFrame(frameTitle);
 		mainWindow.setLayout(null);
 		
+		trackers = new WebsiteTimerGUIelement[numberOfGUIelements];
+		for(int t = 0; t < numberOfGUIelements; t++)
+		{
+			trackers[t] = new WebsiteTimerGUIelement(mainWindow, initialX, initialY + (paddingY+height)*t, height, paddingX);
+		}
+		
 		filenameTextfield = new JTextField(defaultFileString);
 		filenameTextfield.setBounds(filenameTextfieldX, filenameTextfieldY, filenameTextfieldWidth, height);
 		mainWindow.getContentPane().add(filenameTextfield);
 		
 		saveButton = new JButton(saveString);
 		saveButton.setBounds(saveButtonX, saveButtonY, saveButtonWidth, height);
+		saveButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				writeToFile(filenameTextfield.getText());
+			}
+		});
 		mainWindow.getContentPane().add(saveButton);
 		
-		trackers = new WebsiteTimerGUIelement[numberOfGUIelements];
-		for(int t = 0; t < numberOfGUIelements; t++)
-		{
-			trackers[t] = new WebsiteTimerGUIelement(mainWindow, initialX, initialY + (paddingY+height)*t, height, paddingX);
-		}
-		//new WebsiteTimerGUIelement(mainWindow, initialX, initialY, height, paddingX);
-		//new WebsiteTimerGUIelement(mainWindow, 10, 20+height+paddingY, height, paddingX);
+		// total time label (i.e. Total Time:)
+		// total time display (i.e. the sum of all times)
 		
 		/*
 		createWebsiteTextFields();
@@ -304,11 +316,21 @@ public class WindowsGUI
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write("Output from WebsiteUsageTracker");
 			out.newLine();
+			out.write("--------------------------");
+			out.newLine();
+			out.write("Website    Time (HH:MM:SS)");
+			out.newLine();
+			out.write("--------------------------");
+			out.newLine();
 			// write each website and time to file
 			for(int i = 0; i < numberOfGUIelements; i++)
 			{
-				//out.write(websiteTFs[i].getText()+"    "+lblTime.getText());
-				out.newLine();
+				// skip unused trackers
+				if(!trackers[i].getWebsite().equals(trackers[i].getDefaultWebsiteString()))
+				{
+					out.write(trackers[i].getWebsite()+"    "+trackers[i].getTime());
+					out.newLine();
+				}
 			}
 			// add all times for a grand total of internet usage
 			out.close();
