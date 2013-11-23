@@ -144,6 +144,20 @@ public class WebsiteTimerGUIelement
 	}
 	
 	/**
+	 * Check if the timer is running.
+	 * @return true if the timer is on, otherwise false.
+	 */
+	public boolean isRunning()
+	{
+		return running;
+	}
+	
+	public void setRunning(boolean stop)
+	{
+		this.running = stop;
+	}
+	
+	/**
 	 * Increments 'seconds' every time its called. Increments 'minutes' and 'hours' when needed.
 	 */
 	private void updateTime()

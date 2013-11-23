@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JCheckBoxMenuItem;
 
 /**
  * @author Doug
@@ -31,7 +32,7 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.75";
+	private String version = " v0.78";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
@@ -63,6 +64,8 @@ public class WindowsGUI
 	private int saveButtonX = 10 + filenameTextfieldWidth + paddingX;
 	private int saveButtonY = filenameTextfieldY;
 	private int saveButtonWidth = 70;
+	
+	private JCheckBoxMenuItem saveAsCsvCheckboxMenuItem;
 	
 	public WindowsGUI()
 	{
@@ -99,6 +102,24 @@ public class WindowsGUI
 		});
 		mainWindow.getContentPane().add(saveButton);
 		
+		/*
+		 * Attempt 1 at stopping all timers with 1 button. 11/22/13
+		 * 
+		JButton stopAllButton = new JButton("Stop All");
+		stopAllButton.setBounds(390, 21, 91, 23);
+		stopAllButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				for(int i = 0; i < numberOfGUIelements; i++)
+					if(trackers[i] != null)	// if the element exists
+						if(trackers[i].isRunning())
+							trackers[i].setRunning(true);
+			}
+		});
+		mainWindow.getContentPane().add(stopAllButton);*/
+		
 		// create and add a menu bar with several items (for looks)
 		JMenuBar menuBar = new JMenuBar();
 		mainWindow.setJMenuBar(menuBar);
@@ -128,6 +149,12 @@ public class WindowsGUI
             }
 		});
 		fileMenu.add(quitMenuItem);
+		
+		JMenu optionsMenu = new JMenu("Options");
+		menuBar.add(optionsMenu);
+		
+		saveAsCsvCheckboxMenuItem = new JCheckBoxMenuItem("Save as CSV");
+		optionsMenu.add(saveAsCsvCheckboxMenuItem);
 		
 		JMenu helpMenu = new JMenu("Help");
 		menuBar.add(helpMenu);
@@ -195,18 +222,37 @@ public class WindowsGUI
 			out.newLine();
 			out.write("-------------------------------");
 			out.newLine();
-			out.write("Website    Time (HH:MM:SS)    Visit Frequency");
 			out.newLine();
-			//out.write("--------------------------");
-			out.newLine();
-			// write each website, time, and visit frequency to file
-			for(int i = 0; i < numberOfGUIelements; i++)
+			// if the 'save as CSV' checkbox is selected
+			if(saveAsCsvCheckboxMenuItem.isSelected())
 			{
-				// skip unused trackers
-				if(!trackers[i].getWebsite().equals(trackers[i].getDefaultWebsiteString()))
+				out.write("Website,Time(HH:MM:SS),VisitFrequency");
+				out.newLine();
+				// write each website, time, and visit frequency to file
+				for(int i = 0; i < numberOfGUIelements; i++)
 				{
-					out.write(trackers[i].getWebsite()+"    "+trackers[i].getTime()+"    "+trackers[i].getVisitCount());
-					out.newLine();
+					// skip unused trackers
+					if(!trackers[i].getWebsite().equals(trackers[i].getDefaultWebsiteString()))
+					{
+						out.write(trackers[i].getWebsite()+","+trackers[i].getTime()+","+trackers[i].getVisitCount());
+						out.newLine();
+					}
+				}
+			}
+			else
+			{
+				out.write("Website    Time (HH:MM:SS)    Visit Frequency");
+				out.newLine();
+				out.newLine();
+				// write each website, time, and visit frequency to file
+				for(int i = 0; i < numberOfGUIelements; i++)
+				{
+					// skip unused trackers
+					if(!trackers[i].getWebsite().equals(trackers[i].getDefaultWebsiteString()))
+					{
+						out.write(trackers[i].getWebsite()+"    "+trackers[i].getTime()+"    "+trackers[i].getVisitCount());
+						out.newLine();
+					}
 				}
 			}
 			// add all times for a grand total of internet usage?
