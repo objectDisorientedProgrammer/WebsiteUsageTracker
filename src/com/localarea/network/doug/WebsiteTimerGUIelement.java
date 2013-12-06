@@ -19,7 +19,7 @@ public class WebsiteTimerGUIelement
 	private int timeLabelWidth = 65;
 	private String defaultTime = "00:00:00";
 	
-	Timer timer;	// for updating time elapsed
+	private Timer timer;	// for updating time elapsed
 	
 	private JButton startStopButton;
 	private int startStopButtonWidth = 70;
