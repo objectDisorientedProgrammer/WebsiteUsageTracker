@@ -185,15 +185,15 @@ public class WebsiteTimerGUIelement
 	 */
 	private void updateTime()
 	{
-		seconds++;
+		++seconds;
 		if(seconds == 60)
 		{
-			minutes++;
+			++minutes;
 			seconds = 0;
 		}
 		if(minutes == 60)
 		{
-			hours++;
+			++hours;
 			minutes = 0;
 		}
 	}
