@@ -1,3 +1,4 @@
 WebsiteUsageTracker
 ===================
-A simple program to help you track your internet usage.
+
+A simple program to help track internet usage.
