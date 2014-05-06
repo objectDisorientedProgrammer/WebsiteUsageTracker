@@ -26,6 +26,7 @@ package com.localarea.network.doug;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
@@ -50,7 +51,7 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.80";
+	private String version = " v0.81";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
@@ -144,9 +145,11 @@ public class WindowsGUI
 		mainWindow.setJMenuBar(menuBar);
 		
 		JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic(KeyEvent.VK_F);
 		menuBar.add(fileMenu);
 		
 		JMenuItem saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.setMnemonic(KeyEvent.VK_S);
 		saveMenuItem.addActionListener(new ActionListener()
 		{
 			@Override
@@ -158,6 +161,7 @@ public class WindowsGUI
 		fileMenu.add(saveMenuItem);
 		
 		JMenuItem quitMenuItem = new JMenuItem("Quit");
+		quitMenuItem.setMnemonic(KeyEvent.VK_Q);
 		quitMenuItem.addActionListener(new ActionListener()
 		{
             public void actionPerformed(ActionEvent e)
@@ -170,28 +174,33 @@ public class WindowsGUI
 		fileMenu.add(quitMenuItem);
 		
 		JMenu optionsMenu = new JMenu("Options");
+		optionsMenu.setMnemonic(KeyEvent.VK_O);
 		menuBar.add(optionsMenu);
 		
 		saveAsCsvCheckboxMenuItem = new JCheckBoxMenuItem("Save as CSV");
+		saveAsCsvCheckboxMenuItem.setMnemonic(KeyEvent.VK_C);
 		saveAsCsvCheckboxMenuItem.setSelected(true);
 		optionsMenu.add(saveAsCsvCheckboxMenuItem);
 		
 		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic(KeyEvent.VK_H);
 		menuBar.add(helpMenu);
 		
-		JMenuItem helpMenuItem = new JMenuItem("Help");
+		JMenuItem helpMenuItem = new JMenuItem("Getting Started");
+		helpMenuItem.setMnemonic(KeyEvent.VK_G);
 		helpMenuItem.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				// show basic use instructions if user clicks: Help -> Help
+				// show basic use instructions if user clicks: Help -> Getting Started
                 JOptionPane.showMessageDialog(null, helpMessage, "How to use", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		helpMenu.add(helpMenuItem);
 		
 		JMenuItem aboutMenuItem = new JMenuItem("About");
+		aboutMenuItem.setMnemonic(KeyEvent.VK_A);
 		aboutMenuItem.addActionListener(new ActionListener()
 		{
 			@Override
