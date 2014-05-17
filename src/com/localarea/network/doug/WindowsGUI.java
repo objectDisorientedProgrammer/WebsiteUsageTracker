@@ -42,7 +42,6 @@ import javax.swing.JTextField;
 
 /**
  * @author Doug
- *
  */
 public class WindowsGUI
 {
@@ -51,7 +50,7 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.81";
+	private String version = " v0.85";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
@@ -69,6 +68,8 @@ public class WindowsGUI
 	private int height = 25;
 	
 	private WebsiteTimerGUIelement[] trackers;
+	
+	String imagePath = "/images/";	// path in jar file
 	
 	// save to file components
 	private JTextField filenameTextfield;
@@ -160,7 +161,7 @@ public class WindowsGUI
 		});
 		fileMenu.add(saveMenuItem);
 		
-		JMenuItem quitMenuItem = new JMenuItem("Quit");
+		JMenuItem quitMenuItem = new JMenuItem("Quit", new ImageIcon(this.getClass().getResource(imagePath+"exit.png")));
 		quitMenuItem.setMnemonic(KeyEvent.VK_Q);
 		quitMenuItem.addActionListener(new ActionListener()
 		{
@@ -186,7 +187,7 @@ public class WindowsGUI
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 		menuBar.add(helpMenu);
 		
-		JMenuItem helpMenuItem = new JMenuItem("Getting Started");
+		JMenuItem helpMenuItem = new JMenuItem("Getting Started", new ImageIcon(this.getClass().getResource(imagePath+"help.png")));
 		helpMenuItem.setMnemonic(KeyEvent.VK_G);
 		helpMenuItem.addActionListener(new ActionListener()
 		{
@@ -194,12 +195,13 @@ public class WindowsGUI
 			public void actionPerformed(ActionEvent e)
 			{
 				// show basic use instructions if user clicks: Help -> Getting Started
-                JOptionPane.showMessageDialog(null, helpMessage, "How to use", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, helpMessage, "Usage",
+						JOptionPane.PLAIN_MESSAGE, new ImageIcon(this.getClass().getResource(imagePath+"help64.png")));
 			}
 		});
 		helpMenu.add(helpMenuItem);
 		
-		JMenuItem aboutMenuItem = new JMenuItem("About");
+		JMenuItem aboutMenuItem = new JMenuItem("About", new ImageIcon(this.getClass().getResource(imagePath+"about.png")));
 		aboutMenuItem.setMnemonic(KeyEvent.VK_A);
 		aboutMenuItem.addActionListener(new ActionListener()
 		{
@@ -207,7 +209,8 @@ public class WindowsGUI
 			public void actionPerformed(ActionEvent e)
 			{
 				// show author and version if user clicks: Help -> About
-				JOptionPane.showMessageDialog(null, "Created by "+author+"\nVersion "+version/*+updates*/+source, "About", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Created by " + author + "\nVersion " + version + source, "About",
+						JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource(imagePath+"person.png")));
 			}
 		});
 		helpMenu.add(aboutMenuItem);
