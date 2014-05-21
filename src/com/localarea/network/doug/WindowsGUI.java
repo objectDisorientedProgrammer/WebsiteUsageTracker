@@ -50,7 +50,7 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.85";
+	private String version = " v0.86";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
@@ -80,7 +80,6 @@ public class WindowsGUI
 	
 	// save button components
 	private JButton saveButton;
-	private String saveString = "Save";
 	private int saveButtonX = 10 + filenameTextfieldWidth + paddingX;
 	private int saveButtonY = filenameTextfieldY;
 	private int saveButtonWidth = 70;
@@ -111,8 +110,8 @@ public class WindowsGUI
 		
 		// create and add a save button for saving values to a file
 		saveButton = new JButton("");
-		saveButton.setIcon(new ImageIcon(WindowsGUI.class.getResource("/com/sun/java/swing/plaf/windows/icons/FloppyDrive.gif")));
-		saveButton.setBounds(290, 20, 35, 25);
+		saveButton.setIcon(new ImageIcon(WindowsGUI.class.getResource(imagePath + "save22.png")));
+		saveButton.setBounds(290, 20, 22, 22);
 		saveButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -151,6 +150,7 @@ public class WindowsGUI
 		
 		JMenuItem saveMenuItem = new JMenuItem("Save");
 		saveMenuItem.setMnemonic(KeyEvent.VK_S);
+		saveMenuItem.setIcon(new ImageIcon(this.getClass().getResource(imagePath + "save.png")));
 		saveMenuItem.addActionListener(new ActionListener()
 		{
 			@Override
