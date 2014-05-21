@@ -23,11 +23,12 @@
 
 package com.localarea.network.doug;
 
+import java.awt.Container;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -35,27 +36,22 @@ import javax.swing.Timer;
 public class WebsiteTimerGUIelement
 {
 	private JTextField websiteTextfield;
-	private int webTextfieldWidth = 250;
 	private String defaultWebsiteString = "website";
 	
 	private JLabel timeLabel;
-	private int timeLabelWidth = 65;
 	private String defaultTime = "00:00:00";
 	
 	private Timer timer;	// for updating time elapsed
 	
 	private JButton startStopButton;
-	private int startStopButtonWidth = 70;
 	private String startString = "Start";
 	private String stopString = "Stop";
 	
 	private JButton resetButton;
 	private String resetString = "Reset";
-	private int resetButtonWidth = 75;
 	
 	private JLabel visitCountLabel;
 	private int visitCount = 0;
-	private int visitCountLabelWidth = 70;
 	
 	private boolean running = false;
 	private int sleepInterval = 1000;	// time in milliseconds
@@ -63,27 +59,13 @@ public class WebsiteTimerGUIelement
 	private int minutes;
 	private int hours;
 	
-	/**
-	 * A five part element to add to a JFrame. Includes a JTextfield, JLabel, JLabel, JButton, and JButton.
-	 * @param frame	- frame to add this element to
-	 * @param startX - x coord on frame
-	 * @param startY - y coord on frame
-	 * @param rowHeight - height of components
-	 * @param padding - space between components
-	 */
-	public WebsiteTimerGUIelement(JFrame frame, int startX, int startY, int rowHeight, int padding)
+	public WebsiteTimerGUIelement()
 	{
 		super();
-		// website textfield ===================================================================
+		// website textfield ==================================================
 		websiteTextfield = new JTextField(defaultWebsiteString);
-		websiteTextfield.setBounds(startX, startY, webTextfieldWidth, rowHeight);
-		frame.getContentPane().add(websiteTextfield);
-		
-		// time label ===================================================================
+		// time label =========================================================
 		timeLabel = new JLabel(defaultTime);
-		timeLabel.setBounds(startX + webTextfieldWidth + padding, startY, timeLabelWidth, rowHeight);
-		frame.getContentPane().add(timeLabel);
-
 		timer = new Timer(sleepInterval, new ActionListener()
 		{
 			@Override
@@ -93,15 +75,10 @@ public class WebsiteTimerGUIelement
 				timeLabel.setText(formatTimeString());
 			}
 		});
-		
+		// visit count label ==================================================
 		visitCountLabel = new JLabel(""+visitCount);
-		visitCountLabel.setBounds(startX + webTextfieldWidth + timeLabelWidth + padding, startY, visitCountLabelWidth, rowHeight);
-		frame.getContentPane().add(visitCountLabel);
-		
-		// start/stop button ===================================================================
-		int startStopButtonX = startX*2 +webTextfieldWidth+timeLabelWidth+visitCountLabelWidth+padding;
+		// start/stop button ==================================================
 		startStopButton = new JButton(startString);
-		startStopButton.setBounds(startStopButtonX, startY, startStopButtonWidth, rowHeight);
 		startStopButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -122,12 +99,8 @@ public class WebsiteTimerGUIelement
 				}
 			}
 		});
-		frame.getContentPane().add(startStopButton);
-		
-		// reset button ===================================================================
-		int resetButtonX = startX*3+webTextfieldWidth+timeLabelWidth+visitCountLabelWidth+startStopButtonWidth+padding;
+		// reset button =======================================================
 		resetButton = new JButton(resetString);
-		resetButton.setBounds(resetButtonX, startY, resetButtonWidth , rowHeight);
 		resetButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -143,7 +116,22 @@ public class WebsiteTimerGUIelement
 				visitCountLabel.setText("" + visitCount);
 			}
 		});
-		frame.getContentPane().add(resetButton);
+	}
+	
+	/**
+	 * Five swing components to add to a Container.
+	 * Includes a JTextfield, JLabel, JLabel, JButton, and JButton.
+	 * @param elementPanel - the container to add the components to.
+	 */
+	public void addToContainer(Container elementPanel)
+	{
+		elementPanel.setLayout(new GridLayout(1, 5, 10, 10));
+		
+		elementPanel.add(websiteTextfield);
+		elementPanel.add(timeLabel);
+		elementPanel.add(visitCountLabel);
+		elementPanel.add(startStopButton);
+		elementPanel.add(resetButton);
 	}
 	
 	public String getWebsite()

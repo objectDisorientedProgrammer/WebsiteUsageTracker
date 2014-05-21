@@ -24,11 +24,13 @@
  */
 package com.localarea.network.doug;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,6 +40,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -50,7 +53,7 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.86";
+	private String version = " v0.95";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
@@ -60,7 +63,8 @@ public class WindowsGUI
 	private String source = "\n\nWant to suggest an improvement? Create an issue at:" +
 			"\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
-	private int numberOfGUIelements = 10;
+	private int numberOfGUIelements = 3;
+	private int currentNumberOfTimers;
 	private int initialX = 10;
 	private int initialY = 60;
 	private int paddingX = 30;
@@ -68,10 +72,15 @@ public class WindowsGUI
 	private int height = 25;
 	
 	private WebsiteTimerGUIelement[] trackers;
+	private ArrayList<JPanel> guiElements;
+	private ArrayList<WebsiteTimerGUIelement> timers;
 	
 	String imagePath = "/images/";	// path in jar file
 	
 	// save to file components
+	private JPanel mainWindowPanel;
+	private JPanel fileManagerPanel;
+	
 	private JTextField filenameTextfield;
 	private String defaultFileString = "filename";
 	private int filenameTextfieldX = 10;
@@ -91,36 +100,31 @@ public class WindowsGUI
 		super();
 		// set up main JFrame
 		mainWindow = new JFrame(frameTitle);
-		mainWindow.getContentPane().setLayout(null);
-		mainWindow.setSize(frameWidth, frameHeight);
+		//mainWindow.setSize(frameWidth, frameHeight);
 		mainWindow.setLocationRelativeTo(null);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		// create and add WebsiteTimer rows
-		trackers = new WebsiteTimerGUIelement[numberOfGUIelements];
-		for(int t = 0; t < numberOfGUIelements; t++)
+		// create a panel for mainWindow
+		mainWindowPanel = new JPanel(new GridLayout(0, 1, 0, 5)); // any number of rows & 1 column, vgap of 5
+		
+		// create a file management panel
+		createAndAddFilePanel();
+		
+		// A variable number of panels to add timers to
+		guiElements = new ArrayList<JPanel>(numberOfGUIelements);
+		timers = new ArrayList<WebsiteTimerGUIelement>(numberOfGUIelements);
+		
+		// create and add all timers to all panels, then add all panels to the panel on mainWindow
+		for(int i = 0; i < numberOfGUIelements; ++i)
 		{
-			trackers[t] = new WebsiteTimerGUIelement(mainWindow, initialX, initialY + (paddingY+height)*t, height, paddingX);
+			guiElements.add(new JPanel());
+			timers.add(new WebsiteTimerGUIelement());
+			timers.get(i).addToContainer(guiElements.get(i));
+			mainWindowPanel.add(guiElements.get(i));
 		}
+		currentNumberOfTimers = numberOfGUIelements;
+		mainWindow.add(mainWindowPanel);
 		
-		// create and add a textfield for the user to enter a filename
-		filenameTextfield = new JTextField(defaultFileString);
-		filenameTextfield.setBounds(filenameTextfieldX, filenameTextfieldY, filenameTextfieldWidth, height);
-		mainWindow.getContentPane().add(filenameTextfield);
-		
-		// create and add a save button for saving values to a file
-		saveButton = new JButton("");
-		saveButton.setIcon(new ImageIcon(WindowsGUI.class.getResource(imagePath + "save22.png")));
-		saveButton.setBounds(290, 20, 22, 22);
-		saveButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				writeToFile(filenameTextfield.getText());
-			}
-		});
-		mainWindow.getContentPane().add(saveButton);
 		
 		/*
 		 * Attempt 1 at stopping all timers with 1 button. 11/22/13
@@ -140,7 +144,15 @@ public class WindowsGUI
 		});
 		mainWindow.getContentPane().add(stopAllButton);*/
 		
-		// create and add a menu bar with several items (for looks)
+		createAndAddMenuBar();
+		
+		
+		mainWindow.pack();
+		mainWindow.setVisible(true);
+	}
+
+	private void createAndAddMenuBar()
+	{
 		JMenuBar menuBar = new JMenuBar();
 		mainWindow.setJMenuBar(menuBar);
 		
@@ -214,7 +226,49 @@ public class WindowsGUI
 			}
 		});
 		helpMenu.add(aboutMenuItem);
-		mainWindow.setVisible(true);
+	}
+
+	private void createAndAddFilePanel()
+	{
+		fileManagerPanel = new JPanel(new GridLayout(1, 2, 25, 5));
+		
+		filenameTextfield = new JTextField(defaultFileString);
+		fileManagerPanel.add(filenameTextfield);
+		
+		saveButton = new JButton("");
+		saveButton.setIcon(new ImageIcon(WindowsGUI.class.getResource(imagePath + "save22.png")));
+		saveButton.setBounds(290, 20, 22, 22);
+		saveButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				writeToFile(filenameTextfield.getText());
+			}
+		});
+		fileManagerPanel.add(saveButton);
+		
+		
+		// make add button for new website timers
+		JButton newTimerButton = new JButton("New Timer");
+		newTimerButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				guiElements.add(new JPanel());
+				timers.add(new WebsiteTimerGUIelement());
+				timers.get(currentNumberOfTimers).addToContainer(guiElements.get(currentNumberOfTimers));
+				mainWindowPanel.add(guiElements.get(currentNumberOfTimers));
+				++currentNumberOfTimers;
+				
+				//for(JPanel timer : guiElements)
+				//	timer.repaint();
+			}
+		});
+		fileManagerPanel.add(newTimerButton);
+		
+		mainWindowPanel.add(fileManagerPanel); // always needs to be last
 	}
 	
 	/**

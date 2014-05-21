@@ -29,7 +29,12 @@ public class WebsiteUsageTracker
 	{
 		// determine OS
 		// instantiate GUI class for appropriate OS
-		new WindowsGUI();
+		
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	new WindowsGUI();
+            }
+        });
 	}
 
 }
