@@ -24,7 +24,9 @@
  */
 package com.localarea.network.doug;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -100,8 +102,6 @@ public class WindowsGUI
 		super();
 		// set up main JFrame
 		mainWindow = new JFrame(frameTitle);
-		//mainWindow.setSize(frameWidth, frameHeight);
-		mainWindow.setLocationRelativeTo(null);
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// create a panel for mainWindow
@@ -148,6 +148,11 @@ public class WindowsGUI
 		
 		
 		mainWindow.pack();
+		// center mainWindow on screen
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		mainWindow.setLocation(screenSize.width/2, screenSize.height/2);
+		mainWindow.setLocationRelativeTo(null);
+		// show mainWindow
 		mainWindow.setVisible(true);
 	}
 

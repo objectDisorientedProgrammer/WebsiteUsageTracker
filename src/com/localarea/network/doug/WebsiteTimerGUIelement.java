@@ -163,9 +163,9 @@ public class WebsiteTimerGUIelement
 		return running;
 	}
 	
-	public void setRunning(boolean stop)
+	public void setRunning(boolean run)
 	{
-		this.running = stop;
+		this.running = run;
 	}
 	
 	/**
