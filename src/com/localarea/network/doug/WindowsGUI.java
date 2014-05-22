@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -56,7 +57,7 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.95.1b";
+	private String version = " v0.95.3b";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
@@ -74,7 +75,7 @@ public class WindowsGUI
 //	private int paddingY = 10;
 //	private int height = 25;
 	
-	private WebsiteTimerGUIelement[] trackers;
+	//private WebsiteTimerGUIelement[] trackers;
 	private ArrayList<JPanel> guiElements;
 	private ArrayList<WebsiteTimerGUIelement> timers;
 	
@@ -174,6 +175,7 @@ public class WindowsGUI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				// File -> Save
 				writeToFile(filenameTextfield.getText());
 			}
 		});
@@ -291,7 +293,7 @@ public class WindowsGUI
 	{
 		// check for valid filename
 		if(filename.equals(""))
-			JOptionPane.showMessageDialog(mainWindow, "Please enter a valid filename", "Filename Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainWindow, "Please enter a valid filename.", "Filename Error", JOptionPane.ERROR_MESSAGE);
 		else if(filename.length() >= 5)	// might have .txt extension, add it if necessary
 		{
 			String ending = filename.substring(filename.length()-4, filename.length());
@@ -323,40 +325,32 @@ public class WindowsGUI
 			out.newLine();
 			// if the 'save as CSV' checkbox is selected
 			if(saveAsCsvCheckboxMenuItem.isSelected())
-			{
-				out.write("Website,Time(HH:MM:SS),VisitFrequency");
-				out.newLine();
-				// write each website, time, and visit frequency to file
-				for(int i = 0; i < numberOfGUIelements; i++)
-				{
-					// skip unused trackers
-					if(!trackers[i].getWebsite().equals(trackers[i].getDefaultWebsiteString()))
-					{
-						out.write(trackers[i].getWebsite()+","+trackers[i].getTime()+","+trackers[i].getVisitCount());
-						out.newLine();
-					}
-				}
-			}
+				writeFile(out, ",");
 			else
-			{
-				out.write("Website    Time (HH:MM:SS)    Visit Frequency");
-				out.newLine();
-				out.newLine();
-				// write each website, time, and visit frequency to file
-				for(int i = 0; i < numberOfGUIelements; i++)
-				{
-					// skip unused trackers
-					if(!trackers[i].getWebsite().equals(trackers[i].getDefaultWebsiteString()))
-					{
-						out.write(trackers[i].getWebsite()+"    "+trackers[i].getTime()+"    "+trackers[i].getVisitCount());
-						out.newLine();
-					}
-				}
-			}
+				writeFile(out, "    ");
+			
 			// add all times for a grand total of internet usage?
 			out.close();
 		} catch(Exception e) {
-			System.err.println("Error: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage(), "File I/O Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void writeFile(BufferedWriter out, String separator) throws IOException
+	{
+		out.write("Website"+separator+"Time(HH:MM:SS)"+separator+"VisitFrequency");
+		out.newLine();
+		// write each website, time, and visit frequency to file
+		for(int i = 0; i < numberOfGUIelements; ++i)
+		{
+			// skip unused timers
+			if(!timers.get(i).getWebsite().equals(timers.get(i).getDefaultWebsiteString()))
+			{
+				out.write(timers.get(i).getWebsite() + separator
+						+ timers.get(i).getTime() + separator
+						+ timers.get(i).getVisitCount());
+				out.newLine();
+			}
 		}
 	}
 }
