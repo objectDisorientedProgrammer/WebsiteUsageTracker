@@ -52,17 +52,18 @@ public class WindowsGUI
 {
 	private JFrame mainWindow;
 	private String frameTitle = "Website Usage Tracker";
+	private int maxFrameSize = 600;
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.95";
+	private String version = " v0.95.1b";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
 			"WARNING: website fields with the default 'website' value will not be written to the save file.\n\n" +
 			"The saved file should be in the same place as where you ran this program from (Windows) or your home directory (Unix).";
 	//private String updates = "\n\nUpdates available at:\nlocalarea-network.com under the 'programs' link.";
-	private String source = "\n\nWant to suggest an improvement? Create an issue at:" +
+	private String source = "\n\nFind a bug?\nWant to suggest an improvement?\nCreate an issue at:" +
 			"\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
 	private int numberOfGUIelements = 3;
@@ -253,7 +254,7 @@ public class WindowsGUI
 		});
 		fileManagerPanel.add(saveButton);
 		
-		
+		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// make add button for new website timers
 		JButton newTimerButton = new JButton("New Timer");
 		newTimerButton.addActionListener(new ActionListener()
@@ -267,8 +268,14 @@ public class WindowsGUI
 				mainWindowPanel.add(guiElements.get(currentNumberOfTimers));
 				++currentNumberOfTimers;
 				
-				//for(JPanel timer : guiElements)
-				//	timer.repaint();
+				// resize mainWindow and draw the new timer.
+				if(mainWindow.getHeight() <= maxFrameSize)
+				{
+					mainWindow.setVisible(false);
+					mainWindow.setBounds(screenSize.width/2, screenSize.height/2, mainWindow.getWidth(), mainWindow.getHeight() + 30);
+					mainWindow.setLocationRelativeTo(null);
+					mainWindow.setVisible(true);
+				}
 			}
 		});
 		fileManagerPanel.add(newTimerButton);
