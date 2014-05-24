@@ -282,6 +282,20 @@ public class WindowsGUI
 		});
 		fileManagerPanel.add(newTimerButton);
 		
+		// stop all button
+		JButton stopAllButton = new JButton("Stop All Timers");
+		stopAllButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				for(int i = 0; i < numberOfGUIelements; i++)
+					if(timers.get(i).isRunning())
+						timers.get(i).stopTimer();
+			}
+		});
+		fileManagerPanel.add(stopAllButton);
+		
 		mainWindowPanel.add(fileManagerPanel); // always needs to be last
 	}
 	

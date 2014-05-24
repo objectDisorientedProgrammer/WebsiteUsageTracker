@@ -163,9 +163,19 @@ public class WebsiteTimerGUIelement
 		return running;
 	}
 	
-	public void setRunning(boolean run)
+//	public void setRunning(boolean run)
+//	{
+//		this.running = run;
+//	}
+	
+	/**
+	 * Stop the current timer.
+	 */
+	public void stopTimer()
 	{
-		this.running = run;
+		timer.stop();
+		startStopButton.setText(startString);
+		running = false;
 	}
 	
 	/**
