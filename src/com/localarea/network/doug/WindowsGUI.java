@@ -69,11 +69,6 @@ public class WindowsGUI
 	
 	private int numberOfGUIelements = 3;
 	private int currentNumberOfTimers;
-//	private int initialX = 10;
-//	private int initialY = 60;
-//	private int paddingX = 30;
-//	private int paddingY = 10;
-//	private int height = 25;
 	
 	//private WebsiteTimerGUIelement[] trackers;
 	private ArrayList<JPanel> guiElements;
@@ -87,15 +82,9 @@ public class WindowsGUI
 	
 	private JTextField filenameTextfield;
 	private String defaultFileString = "filename";
-//	private int filenameTextfieldX = 10;
-//	private int filenameTextfieldY = 20;
-//	private int filenameTextfieldWidth = 250;
 	
 	// save button components
 	private JButton saveButton;
-//	private int saveButtonX = 10 + filenameTextfieldWidth + paddingX;
-//	private int saveButtonY = filenameTextfieldY;
-//	private int saveButtonWidth = 70;
 	
 	private JCheckBoxMenuItem saveAsCsvCheckboxMenuItem;
 	
@@ -127,32 +116,10 @@ public class WindowsGUI
 		currentNumberOfTimers = numberOfGUIelements;
 		mainWindow.add(mainWindowPanel);
 		
-		
-		/*
-		 * Attempt 1 at stopping all timers with 1 button. 11/22/13
-		 * 
-		JButton stopAllButton = new JButton("Stop All");
-		stopAllButton.setBounds(390, 21, 91, 23);
-		stopAllButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				for(int i = 0; i < numberOfGUIelements; i++)
-					if(trackers[i] != null)	// if the element exists
-						if(trackers[i].isRunning())
-							trackers[i].setRunning(true);
-			}
-		});
-		mainWindow.getContentPane().add(stopAllButton);*/
-		
 		createAndAddMenuBar();
 		
-		
-		mainWindow.pack();
 		// center mainWindow on screen
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		mainWindow.setLocation(screenSize.width/2, screenSize.height/2);
+		mainWindow.pack();
 		mainWindow.setLocationRelativeTo(null);
 		// show mainWindow
 		mainWindow.setVisible(true);
@@ -243,9 +210,8 @@ public class WindowsGUI
 		filenameTextfield = new JTextField(defaultFileString);
 		fileManagerPanel.add(filenameTextfield);
 		
-		saveButton = new JButton("");
+		saveButton = new JButton();
 		saveButton.setIcon(new ImageIcon(WindowsGUI.class.getResource(imagePath + "save22.png")));
-		saveButton.setBounds(290, 20, 22, 22);
 		saveButton.addActionListener(new ActionListener()
 		{
 			@Override
