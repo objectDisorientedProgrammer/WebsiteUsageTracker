@@ -35,6 +35,9 @@ import javax.swing.Timer;
 
 public class WebsiteTimerGUIelement
 {
+	private JButton launchButton;
+	private String launchString = "Launch";
+	
 	private JTextField websiteTextfield;
 	private String defaultWebsiteString = "website";
 	
@@ -62,6 +65,28 @@ public class WebsiteTimerGUIelement
 	public WebsiteTimerGUIelement()
 	{
 		super();
+		// launch button ======================================================
+		launchButton = new JButton(launchString);
+		launchButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(!running)
+				{
+					timer.start();
+					startStopButton.setText(stopString);
+					running = true;
+					visitCountLabel.setText(""+ ++visitCount);
+				}
+				else
+				{
+					timer.stop();
+					startStopButton.setText(startString);
+					running = false;
+				}
+			}
+		});
 		// website textfield ==================================================
 		websiteTextfield = new JTextField(defaultWebsiteString);
 		// time label =========================================================
@@ -127,6 +152,7 @@ public class WebsiteTimerGUIelement
 	{
 		elementPanel.setLayout(new GridLayout(1, 5, 10, 10));
 		
+		elementPanel.add(launchButton);
 		elementPanel.add(websiteTextfield);
 		elementPanel.add(timeLabel);
 		elementPanel.add(visitCountLabel);
