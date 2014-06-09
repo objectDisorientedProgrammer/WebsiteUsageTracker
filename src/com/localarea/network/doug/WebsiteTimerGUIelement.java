@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -37,6 +38,7 @@ public class WebsiteTimerGUIelement
 {
 	private JButton launchButton;
 	private String launchString = "Launch";
+	private String enterValidURLMessage = "Please enter a valid URL of the form:\nhttp://www.<site>.com";
 	
 	private JTextField websiteTextfield;
 	private String defaultWebsiteString = "website";
@@ -70,14 +72,36 @@ public class WebsiteTimerGUIelement
 		launchButton.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(ActionEvent e)
+			public void actionPerformed(ActionEvent ae)
 			{
+				boolean launched = false;
 				if(!running)
 				{
-					timer.start();
-					startStopButton.setText(stopString);
-					running = true;
-					visitCountLabel.setText(""+ ++visitCount);
+					// attempt to launch website
+					if(!websiteTextfield.getText().equalsIgnoreCase(defaultWebsiteString)
+							&& !websiteTextfield.getText().equalsIgnoreCase(""))
+						try {
+							
+							java.awt.Desktop.getDesktop().browse(	
+									java.net.URI.create(checkURL(websiteTextfield.getText()))); // launch website
+							launched = true;
+						} catch (java.io.IOException e) {
+							launched = false;
+							JOptionPane.showMessageDialog(null, e.getMessage()+".\n"+enterValidURLMessage, "URL Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					else
+						JOptionPane.showMessageDialog(null, enterValidURLMessage, "URL Error",
+								JOptionPane.ERROR_MESSAGE);
+					
+					// start timer and increment visitCount
+					if(launched)
+					{
+						timer.start();
+						startStopButton.setText(stopString);
+						running = true;
+						visitCountLabel.setText(""+ ++visitCount);
+					}
 				}
 				else
 				{
@@ -239,5 +263,48 @@ public class WebsiteTimerGUIelement
 		if(hour.length() < 2)
 			hour = "0" + hour;
 		return hour+":"+minute+":"+second;
+	}
+	
+	/**
+	 * Verify that the URL has http://www. and .[com,net,org,etc.]
+	 * @param url - URL to check.
+	 * @return a formatted URL.
+	 */
+	private String checkURL(String url)
+	{
+		// TODO
+		String formattedURL = null;
+		// check for http://www. and .*
+		if(url.length() < 16) // add everything
+			formattedURL = "http://www." + url + ".com"; // maybe https:// instead?
+/*
+		if(url.contains("http://") || url.contains("https://"))
+		{
+			if(url.contains("www."))
+			{
+				if(url.contains(".com"))
+					formattedURL = url;
+				else
+					checkURL(url+".com");
+			}
+			else
+				checkURL("http://www."+url);
+		}
+		else
+			checkURL("http://"+url);
+*/
+		
+//				&& url.contains("http://www.") && url.contains(".com"))
+//			formattedURL = url;
+//		else
+//		{
+//			String[] dotSplit = url.split(".");
+//			
+//			for(String s : dotSplit)
+//				System.out.println(s);
+//		}
+		
+		
+		return formattedURL;
 	}
 }

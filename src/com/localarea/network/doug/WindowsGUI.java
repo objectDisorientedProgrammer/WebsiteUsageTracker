@@ -57,7 +57,7 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.95.3b";
+	private String version = " v0.96.1b";
 	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
 								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
 			"However, using File->Quit from the menu will auto-save to a file.\n" +
