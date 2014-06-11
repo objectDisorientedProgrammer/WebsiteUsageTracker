@@ -170,6 +170,8 @@ public class WindowsGUI
 		saveAsCsvCheckboxMenuItem.setSelected(true);
 		optionsMenu.add(saveAsCsvCheckboxMenuItem);
 		
+		// TODO add 'use https' checkbox here
+		
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 		menuBar.add(helpMenu);
@@ -236,6 +238,7 @@ public class WindowsGUI
 				mainWindowPanel.add(guiElements.get(currentNumberOfTimers));
 				++currentNumberOfTimers;
 				
+				// TODO find a better way to update timers on the panel.....
 				// resize mainWindow and draw the new timer.
 				if(mainWindow.getHeight() <= maxFrameSize)
 				{
@@ -255,7 +258,7 @@ public class WindowsGUI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				for(int i = 0; i < numberOfGUIelements; i++)
+				for(int i = 0; i < currentNumberOfTimers; i++)
 					if(timers.get(i).isRunning())
 						timers.get(i).stopTimer();
 			}

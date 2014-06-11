@@ -38,7 +38,8 @@ public class WebsiteTimerGUIelement
 {
 	private JButton launchButton;
 	private String launchString = "Launch";
-	private String enterValidURLMessage = "Please enter a valid URL of the form:\nhttp://www.<site>.com";
+	private String enterValidURLMessage = "Please enter a valid URL in the form:\n" +
+			"\nhttp://www.[site].[com, net, org, ...] or\nhttps://www.[site].[com, net, org, ...]";
 	
 	private JTextField websiteTextfield;
 	private String defaultWebsiteString = "website";
@@ -81,9 +82,17 @@ public class WebsiteTimerGUIelement
 					if(!websiteTextfield.getText().equalsIgnoreCase(defaultWebsiteString)
 							&& !websiteTextfield.getText().equalsIgnoreCase(""))
 						try {
+							// Debugging....
+							String url = checkURL(websiteTextfield.getText());
 							
+							String[] p = url.split("/");
+							for (String s : p) {
+								System.out.println(s);
+							}
+							
+							// launch website
 							java.awt.Desktop.getDesktop().browse(	
-									java.net.URI.create(checkURL(websiteTextfield.getText()))); // launch website
+									java.net.URI.create(url)); 
 							launched = true;
 						} catch (java.io.IOException e) {
 							launched = false;
@@ -272,11 +281,17 @@ public class WebsiteTimerGUIelement
 	 */
 	private String checkURL(String url)
 	{
-		// TODO
+		// TODO deal with user input for URL
 		String formattedURL = null;
 		// check for http://www. and .*
-		if(url.length() < 16) // add everything
-			formattedURL = "http://www." + url + ".com"; // maybe https:// instead?
+		//if(url.length() < 16) // add everything
+		//	formattedURL = "http://www." + url + ".com"; // maybe https:// instead?
+		
+		// if I can assume the user reads the Help->Getting Started...(states to enter URL as website.*)
+		formattedURL = "http://www." + url;
+		//if(httpsCheckbox.isChecked)
+		//	formattedURL = "https://www." + url;
+		
 /*
 		if(url.contains("http://") || url.contains("https://"))
 		{
@@ -303,8 +318,6 @@ public class WebsiteTimerGUIelement
 //			for(String s : dotSplit)
 //				System.out.println(s);
 //		}
-		
-		
 		return formattedURL;
 	}
 }
