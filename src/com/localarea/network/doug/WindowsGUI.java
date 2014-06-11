@@ -68,7 +68,7 @@ public class WindowsGUI
 			"\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
 	private int numberOfGUIelements = 3;
-	private int currentNumberOfTimers;
+	//private int currentNumberOfTimers;
 	
 	//private WebsiteTimerGUIelement[] trackers;
 	private ArrayList<JPanel> guiElements;
@@ -87,6 +87,7 @@ public class WindowsGUI
 	private JButton saveButton;
 	
 	private JCheckBoxMenuItem saveAsCsvCheckboxMenuItem;
+	private JCheckBoxMenuItem useHttpsCheckbox;
 	
 	public WindowsGUI()
 	{
@@ -113,7 +114,7 @@ public class WindowsGUI
 			timers.get(i).addToContainer(guiElements.get(i));
 			mainWindowPanel.add(guiElements.get(i));
 		}
-		currentNumberOfTimers = numberOfGUIelements;
+		//currentNumberOfTimers = numberOfGUIelements;
 		mainWindow.add(mainWindowPanel);
 		
 		createAndAddMenuBar();
@@ -170,7 +171,16 @@ public class WindowsGUI
 		saveAsCsvCheckboxMenuItem.setSelected(true);
 		optionsMenu.add(saveAsCsvCheckboxMenuItem);
 		
-		// TODO add 'use https' checkbox here
+		useHttpsCheckbox = new JCheckBoxMenuItem("Use https");
+		useHttpsCheckbox.setMnemonic(KeyEvent.VK_U);
+		useHttpsCheckbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(WebsiteTimerGUIelement wtg : timers)
+					wtg.setHttps(useHttpsCheckbox.isSelected());
+			}
+		});
+		optionsMenu.add(useHttpsCheckbox);
 		
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic(KeyEvent.VK_H);
@@ -234,9 +244,9 @@ public class WindowsGUI
 			{
 				guiElements.add(new JPanel());
 				timers.add(new WebsiteTimerGUIelement());
-				timers.get(currentNumberOfTimers).addToContainer(guiElements.get(currentNumberOfTimers));
-				mainWindowPanel.add(guiElements.get(currentNumberOfTimers));
-				++currentNumberOfTimers;
+				timers.get(numberOfGUIelements).addToContainer(guiElements.get(numberOfGUIelements));
+				mainWindowPanel.add(guiElements.get(numberOfGUIelements));
+				++numberOfGUIelements;
 				
 				// TODO find a better way to update timers on the panel.....
 				// resize mainWindow and draw the new timer.
@@ -258,7 +268,7 @@ public class WindowsGUI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				for(int i = 0; i < currentNumberOfTimers; i++)
+				for(int i = 0; i < numberOfGUIelements; ++i)
 					if(timers.get(i).isRunning())
 						timers.get(i).stopTimer();
 			}

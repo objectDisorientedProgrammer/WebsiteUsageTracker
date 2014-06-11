@@ -37,6 +37,7 @@ import javax.swing.Timer;
 public class WebsiteTimerGUIelement
 {
 	private JButton launchButton;
+	private boolean useHttps = false;
 	private String launchString = "Launch";
 	private String enterValidURLMessage = "Please enter a valid URL in the form:\n" +
 			"\nhttp://www.[site].[com, net, org, ...] or\nhttps://www.[site].[com, net, org, ...]";
@@ -85,10 +86,10 @@ public class WebsiteTimerGUIelement
 							// Debugging....
 							String url = checkURL(websiteTextfield.getText());
 							
-							String[] p = url.split("/");
-							for (String s : p) {
-								System.out.println(s);
-							}
+//							String[] p = url.split("/");
+//							for (String s : p) {
+//								System.out.println(s);
+//							}
 							
 							// launch website
 							java.awt.Desktop.getDesktop().browse(	
@@ -288,9 +289,10 @@ public class WebsiteTimerGUIelement
 		//	formattedURL = "http://www." + url + ".com"; // maybe https:// instead?
 		
 		// if I can assume the user reads the Help->Getting Started...(states to enter URL as website.*)
-		formattedURL = "http://www." + url;
-		//if(httpsCheckbox.isChecked)
-		//	formattedURL = "https://www." + url;
+		if(useHttps)
+			formattedURL = "https://www." + url;
+		else
+			formattedURL = "http://www." + url;
 		
 /*
 		if(url.contains("http://") || url.contains("https://"))
@@ -319,5 +321,10 @@ public class WebsiteTimerGUIelement
 //				System.out.println(s);
 //		}
 		return formattedURL;
+	}
+	
+	public void setHttps(boolean https)
+	{
+		this.useHttps = https;
 	}
 }
