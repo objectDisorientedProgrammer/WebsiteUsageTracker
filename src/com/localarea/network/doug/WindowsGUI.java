@@ -57,12 +57,13 @@ public class WindowsGUI
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.96.1b";
-	private String helpMessage = "Put a website URL or name in the fields that you will be using.\nStart and stop the timer at will.\n" +
-								"WARNING: save to a file with a unique name before quitting otherwise your times will be lost forever.\n" +
-			"However, using File->Quit from the menu will auto-save to a file.\n" +
-			"WARNING: website fields with the default 'website' value will not be written to the save file.\n\n" +
-			"The saved file should be in the same place as where you ran this program from (Windows) or your home directory (Unix).";
+	private String version = " v0.96.3b";
+	private String helpMessage = "Enter a website URL as [website].[com, net, org, ...] in one of the fields." +
+			"\nClick 'Launch' to go to that website. Start and stop the timer at will.\n" +
+			"Using File->Quit from the menu will auto-save to a file.\n\n" +
+			"WARNING: make sure the filename is unique before quitting, otherwise your times will be overwritten.\n" +
+			"WARNING: website fields with 'website' will not be written to the save file.\n\n" +
+			"The saved file will be located in the same folder where you ran this program from (Windows) or your home directory (Unix).";
 	//private String updates = "\n\nUpdates available at:\nlocalarea-network.com under the 'programs' link.";
 	private String source = "\n\nFind a bug?\nWant to suggest an improvement?\nCreate an issue at:" +
 			"\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
@@ -176,7 +177,7 @@ public class WindowsGUI
 		useHttpsCheckbox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for(WebsiteTimerGUIelement wtg : timers)
+				for(WebsiteTimerGUIelement wtg : timers)	// update https bool on each timer
 					wtg.setHttps(useHttpsCheckbox.isSelected());
 			}
 		});

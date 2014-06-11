@@ -40,7 +40,7 @@ public class WebsiteTimerGUIelement
 	private boolean useHttps = false;
 	private String launchString = "Launch";
 	private String enterValidURLMessage = "Please enter a valid URL in the form:\n" +
-			"\nhttp://www.[site].[com, net, org, ...] or\nhttps://www.[site].[com, net, org, ...]";
+			"\n[website].[com, net, org, ...] or\n[website].[com, net, org, ...]";
 	
 	private JTextField websiteTextfield;
 	private String defaultWebsiteString = "website";
@@ -83,17 +83,9 @@ public class WebsiteTimerGUIelement
 					if(!websiteTextfield.getText().equalsIgnoreCase(defaultWebsiteString)
 							&& !websiteTextfield.getText().equalsIgnoreCase(""))
 						try {
-							// Debugging....
-							String url = checkURL(websiteTextfield.getText());
-							
-//							String[] p = url.split("/");
-//							for (String s : p) {
-//								System.out.println(s);
-//							}
-							
 							// launch website
 							java.awt.Desktop.getDesktop().browse(	
-									java.net.URI.create(url)); 
+									java.net.URI.create(checkURL(websiteTextfield.getText()))); 
 							launched = true;
 						} catch (java.io.IOException e) {
 							launched = false;
@@ -223,11 +215,6 @@ public class WebsiteTimerGUIelement
 		return running;
 	}
 	
-//	public void setRunning(boolean run)
-//	{
-//		this.running = run;
-//	}
-	
 	/**
 	 * Stop the current timer.
 	 */
@@ -285,44 +272,20 @@ public class WebsiteTimerGUIelement
 		// TODO deal with user input for URL
 		String formattedURL = null;
 		// check for http://www. and .*
-		//if(url.length() < 16) // add everything
-		//	formattedURL = "http://www." + url + ".com"; // maybe https:// instead?
 		
-		// if I can assume the user reads the Help->Getting Started...(states to enter URL as website.*)
+		// if I can assume the user reads the Help->Getting Started text...(states to enter URL as website.*)
 		if(useHttps)
 			formattedURL = "https://www." + url;
 		else
 			formattedURL = "http://www." + url;
 		
-/*
-		if(url.contains("http://") || url.contains("https://"))
-		{
-			if(url.contains("www."))
-			{
-				if(url.contains(".com"))
-					formattedURL = url;
-				else
-					checkURL(url+".com");
-			}
-			else
-				checkURL("http://www."+url);
-		}
-		else
-			checkURL("http://"+url);
-*/
-		
-//				&& url.contains("http://www.") && url.contains(".com"))
-//			formattedURL = url;
-//		else
-//		{
-//			String[] dotSplit = url.split(".");
-//			
-//			for(String s : dotSplit)
-//				System.out.println(s);
-//		}
 		return formattedURL;
 	}
 	
+	/**
+	 * Determine whether to use http or https.
+	 * @param https - If true, then use https. If false, then use http.
+	 */
 	public void setHttps(boolean https)
 	{
 		this.useHttps = https;
