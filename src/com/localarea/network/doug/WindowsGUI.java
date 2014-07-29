@@ -75,7 +75,7 @@ public class WindowsGUI
 	private ArrayList<JPanel> guiElements;
 	private ArrayList<WebsiteTimerGUIelement> timers;
 	
-	String imagePath = "/images/";	// path in jar file
+	private String imagePath = "/images/";	// path in jar file
 	
 	// save to file components
 	private JPanel mainWindowPanel;
