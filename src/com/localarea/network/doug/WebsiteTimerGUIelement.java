@@ -115,6 +115,7 @@ public class WebsiteTimerGUIelement
 		});
 		// website textfield ==================================================
 		websiteTextfield = new JTextField(defaultWebsiteString);
+		websiteTextfield.setToolTipText("Enter as: example.com");
 		// time label =========================================================
 		timeLabel = new JLabel(defaultTime);
 		timer = new Timer(sleepInterval, new ActionListener()
@@ -128,6 +129,7 @@ public class WebsiteTimerGUIelement
 		});
 		// visit count label ==================================================
 		visitCountLabel = new JLabel(""+visitCount);
+		visitCountLabel.setToolTipText("Visit count");
 		// start/stop button ==================================================
 		startStopButton = new JButton(startString);
 		startStopButton.addActionListener(new ActionListener()

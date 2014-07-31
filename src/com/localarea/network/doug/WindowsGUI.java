@@ -60,7 +60,7 @@ public class WindowsGUI
 	private String version = " v0.96.3b";
 	private String helpMessage = "Enter a website URL as [website].[com, net, org, ...] in one of the fields." +
 			"\nClick 'Launch' to go to that website. Start and stop the timer at will.\n" +
-			"Using File->Quit from the menu will auto-save to a file.\n\n" +
+			"Using the File->Quit menu item will automatically save times to a file.\n\n" +
 			"WARNING: make sure the filename is unique before quitting, otherwise your times will be overwritten.\n" +
 			"WARNING: website fields with 'website' will not be written to the save file.\n\n" +
 			"The saved file will be located in the same folder where you ran this program from (Windows) or your home directory (Unix).";
