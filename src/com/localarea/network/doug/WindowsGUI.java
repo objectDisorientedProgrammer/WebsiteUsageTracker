@@ -24,9 +24,7 @@
  */
 package com.localarea.network.doug;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -53,10 +51,8 @@ public class WindowsGUI
 {
 	private JFrame mainWindow;
 	private String frameTitle = "Website Usage Tracker";
-	private int frameWidth = 610;
-	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.96.4b";
+	private String version = " v0.96.5b";
 	private String helpMessage = "Enter a website URL as [website].[com, net, org, ...] in one of the fields." +
 			"\nClick 'Launch' to go to that website. Start and stop the timer at will.\n" +
 			"Using the File->Quit menu item will automatically save times to a file.\n\n" +
@@ -68,9 +64,7 @@ public class WindowsGUI
 			"\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
 	private int numberOfGUIelements = 3;
-	//private int currentNumberOfTimers;
 	
-	//private WebsiteTimerGUIelement[] trackers;
 	private ArrayList<JPanel> guiElements;
 	private ArrayList<WebsiteTimerGUIelement> timers;
 	
@@ -143,8 +137,7 @@ public class WindowsGUI
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				// File -> Save
-				writeToFile(filenameTextfield.getText());
+				writeToFile(filenameTextfield.getText()); // File -> Save
 			}
 		});
 		fileMenu.add(saveMenuItem);
@@ -277,7 +270,7 @@ public class WindowsGUI
 	private void writeToFile(String filename)
 	{
 		// check for valid filename
-		if(filename.equals(""))
+		if(filename.equalsIgnoreCase(""))
 			JOptionPane.showMessageDialog(mainWindow, "Please enter a valid filename.", "Filename Error", JOptionPane.ERROR_MESSAGE);
 		else if(filename.length() >= 5)	// might have .txt extension, add it if necessary
 		{
@@ -314,7 +307,6 @@ public class WindowsGUI
 			else
 				writeFile(out, "    ");
 			
-			// add all times for a grand total of internet usage?
 			out.close();
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "File I/O Error", JOptionPane.ERROR_MESSAGE);
@@ -323,7 +315,10 @@ public class WindowsGUI
 
 	private void writeFile(BufferedWriter out, String separator) throws IOException
 	{
-		out.write("Website"+separator+"Time(HH:MM:SS)"+separator+"VisitFrequency");
+		ArrayList<String> times = new ArrayList<String>();
+		int visits = 0;
+		
+		out.write("Website"+separator+"Time(HH:MM:SS)"+separator+"VisitCount");
 		out.newLine();
 		// write each website, time, and visit frequency to file
 		for(int i = 0; i < numberOfGUIelements; ++i)
@@ -335,7 +330,59 @@ public class WindowsGUI
 						+ timers.get(i).getTime() + separator
 						+ timers.get(i).getVisitCount());
 				out.newLine();
+				
+				times.add(timers.get(i).getTime());
+				visits += timers.get(i).getVisitCount();
 			}
 		}
+		// write total time and total visits
+		out.newLine();
+		out.write("Total time:   " + calculateTime(times));
+		out.newLine();
+		out.write("Total visits: " + visits);
+	}
+	
+	/**
+	 * Add each time from each active timer.
+	 * @param times - ArrayList< String > of times in the form hh:mm:ss.
+	 * @return a formatted string with the total time.
+	 */
+	public String calculateTime(ArrayList<String> times)
+	{
+		int hours = 0;
+		int minutes = 0;
+		int seconds = 0;
+		String[] timeParts = new String[3];
+		
+		for(int i = 0; i < times.size(); i++)
+		{
+			timeParts = times.get(i).split(":");
+			hours += Integer.parseInt(timeParts[0]);
+			minutes += Integer.parseInt(timeParts[1]);
+			seconds += Integer.parseInt(timeParts[2]);
+		}
+		while(seconds >= 60)
+		{
+			++minutes;
+			seconds -= 60;
+		}
+		while(minutes >= 60)
+		{
+			++hours;
+			minutes -= 60;
+		}
+		
+		// format output
+		String second = Integer.toString(seconds);
+		String minute = Integer.toString(minutes);
+		String hour = Integer.toString(hours);
+		
+		if(second.length() < 2)
+			second = "0" + second;
+		if(minute.length() < 2)
+			minute = "0" + minute;
+		if(hour.length() < 2)
+			hour = "0" + hour;
+		return hour+":"+minute+":"+second;
 	}
 }

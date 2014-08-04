@@ -27,9 +27,6 @@ public class WebsiteUsageTracker
 
 	public static void main(String[] args)
 	{
-		// determine OS
-		// instantiate GUI class for appropriate OS
-		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
             	new WindowsGUI();

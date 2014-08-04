@@ -43,7 +43,7 @@ public class WebsiteTimerGUIelement
 			"\n[website].[com, net, org, ...] or\n[website].[com, net, org, ...]";
 	
 	private JTextField websiteTextfield;
-	private String defaultWebsiteString = "website";
+	private String defaultWebsiteString = "website.com";
 	
 	private JLabel timeLabel;
 	private String defaultTime = "00:00:00";
@@ -198,11 +198,19 @@ public class WebsiteTimerGUIelement
 		return this.defaultWebsiteString;
 	}
 	
+	/**
+	 * Get the current time string.
+	 * @return a string as hh:mm:ss
+	 */
 	public String getTime()
 	{
 		return timeLabel.getText();
 	}
 	
+	/**
+	 * Get the current visit count.
+	 * @return an integer that is the count.
+	 */
 	public int getVisitCount()
 	{
 		return visitCount;
