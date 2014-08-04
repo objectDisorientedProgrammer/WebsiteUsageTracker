@@ -53,11 +53,10 @@ public class WindowsGUI
 {
 	private JFrame mainWindow;
 	private String frameTitle = "Website Usage Tracker";
-	private int maxFrameSize = 600;
 	private int frameWidth = 610;
 	private int frameHeight = 470;
 	private String author = "Doug Chidester";
-	private String version = " v0.96.3b";
+	private String version = " v0.96.4b";
 	private String helpMessage = "Enter a website URL as [website].[com, net, org, ...] in one of the fields." +
 			"\nClick 'Launch' to go to that website. Start and stop the timer at will.\n" +
 			"Using the File->Quit menu item will automatically save times to a file.\n\n" +
@@ -235,7 +234,6 @@ public class WindowsGUI
 		});
 		fileManagerPanel.add(saveButton);
 		
-		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// make add button for new website timers
 		JButton newTimerButton = new JButton("New Timer");
 		newTimerButton.addActionListener(new ActionListener()
@@ -249,15 +247,8 @@ public class WindowsGUI
 				mainWindowPanel.add(guiElements.get(numberOfGUIelements));
 				++numberOfGUIelements;
 				
-				// TODO find a better way to update timers on the panel.....
-				// resize mainWindow and draw the new timer.
-				if(mainWindow.getHeight() <= maxFrameSize)
-				{
-					mainWindow.setVisible(false);
-					mainWindow.setBounds(screenSize.width/2, screenSize.height/2, mainWindow.getWidth(), mainWindow.getHeight() + 30);
-					mainWindow.setLocationRelativeTo(null);
-					mainWindow.setVisible(true);
-				}
+				// draw the new timer on the panel.
+				mainWindowPanel.updateUI();
 			}
 		});
 		fileManagerPanel.add(newTimerButton);
