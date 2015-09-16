@@ -27,6 +27,8 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -40,7 +42,7 @@ public class WebsiteTimerGUIelement
 	private boolean useHttps = false;
 	private String launchString = "Launch";
 	private String enterValidURLMessage = "Please enter a valid URL in the form:\n" +
-			"\n[website].[com, net, org, ...] or\n[website].[com, net, org, ...]";
+			"\n[website].[com, net, org, ...]";
 	
 	private JTextField websiteTextfield;
 	private String defaultWebsiteString = "website.com";
@@ -116,6 +118,15 @@ public class WebsiteTimerGUIelement
 		// website textfield ==================================================
 		websiteTextfield = new JTextField(defaultWebsiteString);
 		websiteTextfield.setToolTipText("Enter as: example.com");
+		websiteTextfield.addFocusListener(new FocusListener()
+		{
+		    public void focusGained(FocusEvent e)
+		    {
+		        websiteTextfield.setText("");
+		    }
+
+		    public void focusLost(FocusEvent e) {}
+		});
 		// time label =========================================================
 		timeLabel = new JLabel(defaultTime);
 		timer = new Timer(sleepInterval, new ActionListener()

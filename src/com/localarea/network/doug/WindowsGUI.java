@@ -52,7 +52,7 @@ public class WindowsGUI
 	private JFrame mainWindow;
 	private String frameTitle = "Website Usage Tracker";
 	private String author = "Doug Chidester";
-	private String version = " v0.96.5b";
+	private String version = " v0.96.6";
 	private String helpMessage = "Enter a website URL as [website].[com, net, org, ...] in one of the fields." +
 			"\nClick 'Launch' to go to that website. Start and stop the timer at will.\n" +
 			"Using the File->Quit menu item will automatically save times to a file.\n\n" +
@@ -166,6 +166,7 @@ public class WindowsGUI
 		
 		useHttpsCheckbox = new JCheckBoxMenuItem("Use https");
 		useHttpsCheckbox.setMnemonic(KeyEvent.VK_U);
+		useHttpsCheckbox.setSelected(true);
 		useHttpsCheckbox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
