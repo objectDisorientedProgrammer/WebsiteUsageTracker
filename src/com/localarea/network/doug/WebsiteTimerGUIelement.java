@@ -279,7 +279,7 @@ public class WebsiteTimerGUIelement
 	 */
 	private String checkURL(String url)
 	{
-		// TODO deal with user input for URL
+		// TODO deal with user input for URL (use REGEX?)
 		String formattedURL = null;
 		// check for http://www. and .*
 		

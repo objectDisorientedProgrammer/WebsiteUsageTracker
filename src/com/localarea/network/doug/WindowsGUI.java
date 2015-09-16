@@ -216,6 +216,7 @@ public class WindowsGUI
 		fileManagerPanel.add(filenameTextfield);
 		
 		saveButton = new JButton();
+		saveButton.setToolTipText("Save");
 		saveButton.setIcon(new ImageIcon(WindowsGUI.class.getResource(imagePath + "save22.png")));
 		saveButton.addActionListener(new ActionListener()
 		{
