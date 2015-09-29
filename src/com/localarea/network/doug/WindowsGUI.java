@@ -60,8 +60,8 @@ public class WindowsGUI
 			"WARNING: website fields with 'website' will not be written to the save file.\n\n" +
 			"The saved file will be located in the same folder where you ran this program from (Windows) or your home directory (Unix).";
 	//private String updates = "\n\nUpdates available at:\nlocalarea-network.com under the 'programs' link.";
-	private String source = "\n\nFind a bug?\nWant to suggest an improvement?\nCreate an issue at:" +
-			"\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
+	private String source = "\n\nFind a bug?\nHave an improvement?\nCreate an issue at:";
+	private String repoWebsite = "\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
 	private int numberOfGUIelements = 3;
 	
@@ -198,11 +198,13 @@ public class WindowsGUI
 		aboutMenuItem.setMnemonic(KeyEvent.VK_A);
 		aboutMenuItem.addActionListener(new ActionListener()
 		{
+			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				// show author and version if user clicks: Help -> About
-				JOptionPane.showMessageDialog(null, "Created by " + author + "\nVersion " + version + source, "About",
+				JOptionPane.showMessageDialog(null, "Created by " + author + "\nVersion " + version + source + repoWebsite, "About",
 						JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource(imagePath+"person.png")));
 			}
 		});
