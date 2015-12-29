@@ -24,7 +24,6 @@ package com.localarea.network.doug;
 
 public class WebsiteUsageTracker
 {
-
 	public static void main(String[] args)
 	{
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -33,5 +32,4 @@ public class WebsiteUsageTracker
             }
         });
 	}
-
 }
