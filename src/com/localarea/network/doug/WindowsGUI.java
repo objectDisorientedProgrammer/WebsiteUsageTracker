@@ -52,7 +52,7 @@ public class WindowsGUI
 	private JFrame mainWindow;
 	private String frameTitle = "Website Usage Tracker";
 	private String author = "Doug Chidester";
-	private String version = " v0.96.5b";
+	private String version = " v0.96.6";
 	private String helpMessage = "Enter a website URL as [website].[com, net, org, ...] in one of the fields." +
 			"\nClick 'Launch' to go to that website. Start and stop the timer at will.\n" +
 			"Using the File->Quit menu item will automatically save times to a file.\n\n" +
@@ -60,8 +60,8 @@ public class WindowsGUI
 			"WARNING: website fields with 'website' will not be written to the save file.\n\n" +
 			"The saved file will be located in the same folder where you ran this program from (Windows) or your home directory (Unix).";
 	//private String updates = "\n\nUpdates available at:\nlocalarea-network.com under the 'programs' link.";
-	private String source = "\n\nFind a bug?\nWant to suggest an improvement?\nCreate an issue at:" +
-			"\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
+	private String source = "\n\nFind a bug?\nHave an improvement?\nCreate an issue at:";
+	private String repoWebsite = "\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
 	private int numberOfGUIelements = 3;
 	
@@ -166,6 +166,7 @@ public class WindowsGUI
 		
 		useHttpsCheckbox = new JCheckBoxMenuItem("Use https");
 		useHttpsCheckbox.setMnemonic(KeyEvent.VK_U);
+		useHttpsCheckbox.setSelected(true);
 		useHttpsCheckbox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -197,11 +198,13 @@ public class WindowsGUI
 		aboutMenuItem.setMnemonic(KeyEvent.VK_A);
 		aboutMenuItem.addActionListener(new ActionListener()
 		{
+			
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				// show author and version if user clicks: Help -> About
-				JOptionPane.showMessageDialog(null, "Created by " + author + "\nVersion " + version + source, "About",
+				JOptionPane.showMessageDialog(null, "Created by " + author + "\nVersion " + version + source + repoWebsite, "About",
 						JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource(imagePath+"person.png")));
 			}
 		});
@@ -216,6 +219,7 @@ public class WindowsGUI
 		fileManagerPanel.add(filenameTextfield);
 		
 		saveButton = new JButton();
+		saveButton.setToolTipText("Save");
 		saveButton.setIcon(new ImageIcon(WindowsGUI.class.getResource(imagePath + "save22.png")));
 		saveButton.addActionListener(new ActionListener()
 		{
