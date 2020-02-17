@@ -194,18 +194,30 @@ public class WindowsGUI
 		});
 		helpMenu.add(helpMenuItem);
 		
+		JMenuItem licenseMenuItem = new JMenuItem("License");
+		licenseMenuItem.setMnemonic(KeyEvent.VK_L);
+		licenseMenuItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				// TODO put full license text...
+                JOptionPane.showMessageDialog(null, "Copyright (C) 2013 Douglas Chidester", "License",
+						JOptionPane.PLAIN_MESSAGE, null);
+			}
+		});
+		helpMenu.add(licenseMenuItem);
+		
+		
 		JMenuItem aboutMenuItem = new JMenuItem("About", new ImageIcon(this.getClass().getResource(imagePath+"about.png")));
 		aboutMenuItem.setMnemonic(KeyEvent.VK_A);
 		aboutMenuItem.addActionListener(new ActionListener()
 		{
-			
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				// show author and version if user clicks: Help -> About
-				JOptionPane.showMessageDialog(null, "Created by " + author + "\nVersion " + version + source + repoWebsite, "About",
-						JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource(imagePath+"person.png")));
+				JOptionPane.showMessageDialog(null, "Created by " + author + "\nVersion " + version + source + repoWebsite, "About", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(this.getClass().getResource(imagePath+"person.png")));
 			}
 		});
 		helpMenu.add(aboutMenuItem);
