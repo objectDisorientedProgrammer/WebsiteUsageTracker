@@ -59,7 +59,6 @@ public class WindowsGUI
 			"WARNING: make sure the filename is unique before quitting, otherwise your times will be overwritten.\n" +
 			"WARNING: website fields with 'website' will not be written to the save file.\n\n" +
 			"The saved file will be located in the same folder where you ran this program from (Windows) or your home directory (Unix).";
-	//private String updates = "\n\nUpdates available at:\nlocalarea-network.com under the 'programs' link.";
 	private String source = "\n\nFind a bug?\nHave an improvement?\nCreate an issue at:";
 	private String repoWebsite = "\nhttps://github.com/objectDisorientedProgrammer/WebsiteUsageTracker";
 	
